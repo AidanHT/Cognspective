@@ -1,20 +1,78 @@
+/* Emotion Detection - Session Active View */
 .emotion-detection {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 2rem;
+    gap: 1.5rem;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.session-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0.5rem;
+}
+
+.session-timer {
+    display: flex;
+    align-items: center;
+}
+
+.timer-display {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 0.5rem 1.2rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    letter-spacing: 0.1em;
+}
+
+.stop-button {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.stop-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(211, 47, 47, 0.35);
+    background: linear-gradient(135deg, #ef5350 0%, #d32f2f 100%);
+}
+
+/* Side-by-side layout */
+.detection-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.video-panel {
+    width: 100%;
 }
 
 .video-container {
     position: relative;
     width: 100%;
-    max-width: 800px;
-    border-radius: 24px;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .video-container img {
@@ -23,114 +81,123 @@
     display: block;
 }
 
-.stop-button {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 1.25rem 3rem;
-    font-size: 1.2rem;
-    font-weight: 600;
+/* Side panel */
+.side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.transcription-panel {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(10px);
+    border-radius: 14px;
+    padding: 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.transcription-panel h4 {
     color: white;
-    background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%);
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    box-shadow: 0 8px 30px rgba(211, 47, 47, 0.3);
+    opacity: 0.8;
 }
 
-.stop-button:hover {
-    transform: translateX(-50%) translateY(-2px);
-    box-shadow: 0 12px 40px rgba(211, 47, 47, 0.4);
-    background: linear-gradient(135deg, #ef5350 0%, #d32f2f 100%);
+.transcription-text {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    font-style: italic;
 }
 
-.metrics {
-    width: 100%;
-    padding: 2rem;
-}
-
-.metrics h3 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 2rem;
-    color: white;
-    text-align: center;
-}
-
-.metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin-top: 1rem;
-}
-
-.metric-card {
-    background: rgba(255, 255, 255, 0.1);
+/* Live metrics */
+.live-metrics {
+    background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(10px);
-    padding: 2rem;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    text-align: center;
-    transition: all 0.3s ease;
+    border-radius: 14px;
+    padding: 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.metric-card:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
-
-.metric-card h4 {
+.live-metrics h4 {
     color: white;
-    font-size: 1.2rem;
-    font-weight: 500;
-    margin-bottom: 1rem;
-    opacity: 0.9;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
 }
 
-.metric-value {
-    color: white;
-    font-size: 2.5rem;
+.mini-metrics-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.mini-metric {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.8rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}
+
+.mini-metric-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.mini-metric-value {
+    font-size: 1rem;
     font-weight: 700;
-    margin: 0;
-    background: linear-gradient(135deg, #64B5F6 0%, #2196F3 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 2px 10px rgba(33, 150, 243, 0.3);
+    color: #64B5F6;
 }
 
 .error {
     background: rgba(211, 47, 47, 0.1);
     color: #ef5350;
-    padding: 1rem 2rem;
-    border-radius: 12px;
+    padding: 1rem;
+    border-radius: 10px;
     border: 1px solid rgba(211, 47, 47, 0.2);
-    margin-bottom: 1rem;
-    width: 100%;
     text-align: center;
-    backdrop-filter: blur(10px);
 }
 
-@media (max-width: 768px) {
-    .video-container {
-        border-radius: 16px;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .detection-layout {
+        grid-template-columns: 1fr;
     }
 
-    .stop-button {
-        padding: 1rem 2rem;
-        font-size: 1.1rem;
-        bottom: 1.5rem;
+    .side-panel {
+        flex-direction: row;
+        gap: 1rem;
     }
 
-    .metrics h3 {
-        font-size: 1.8rem;
+    .transcription-panel,
+    .live-metrics {
+        flex: 1;
+    }
+}
+
+@media (max-width: 600px) {
+    .side-panel {
+        flex-direction: column;
     }
 
-    .metric-value {
-        font-size: 2rem;
+    .session-header {
+        flex-direction: column;
+        gap: 1rem;
     }
-} 
+}

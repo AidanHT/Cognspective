@@ -11,8 +11,8 @@ body {
     padding: 0;
     min-height: 100vh;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: linear-gradient(150deg, rgba(10, 17, 40, 0.4) 0%, rgba(26, 35, 126, 0.4) 100%);
-    color: #2c3e50;
+    background: linear-gradient(150deg, rgba(10, 17, 40, 0.95) 0%, rgba(26, 35, 126, 0.95) 100%);
+    color: #e0e0e0;
     overflow-x: hidden;
 }
 
@@ -24,14 +24,14 @@ body {
 
 main {
     flex: 1;
-    padding-top: 60px; /* Height of navbar */
-    min-height: calc(100vh - 60px);
+    padding-top: 70px;
+    min-height: calc(100vh - 70px);
 }
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: 600;
-    color: #2c3e50;
+    color: white;
 }
 
 button {
@@ -40,18 +40,34 @@ button {
 
 /* Modern scrollbar */
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: rgba(255, 255, 255, 0.05);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Page transition */
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

@@ -1,22 +1,31 @@
-/* src/NavigationBar.css */
 .navbar {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
-    padding: 0.7rem 1.5rem;
-    background: linear-gradient(90deg, rgba(28, 27, 64, 0.95) 0%, rgba(41, 41, 122, 0.95) 100%);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    padding: 0 2rem;
+    background: linear-gradient(90deg, rgba(15, 12, 41, 0.98) 0%, rgba(48, 43, 99, 0.98) 50%, rgba(36, 36, 62, 0.98) 100%);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
-    height: 60px;
+    height: 70px;
+}
+
+.nav-brand a {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: white;
+    text-decoration: none;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, #90caf9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .navigation-bar {
-    width: 100%;
     display: flex;
     justify-content: flex-end;
 }
@@ -24,38 +33,48 @@
 .navigation-bar ul {
     list-style-type: none;
     display: flex;
-    justify-content: flex-end;
     align-items: center;
     margin: 0;
     padding: 0;
-    gap: 20px;
+    gap: 6px;
 }
 
 .navigation-bar li {
     display: inline;
-    margin: 0;
 }
 
-.navigation-bar a {
-    color: #ffffff;
+.nav-link {
+    color: rgba(255, 255, 255, 0.65);
     text-decoration: none;
-    padding: 6px 12px;
-    border-radius: 4px;
+    padding: 8px 16px;
+    border-radius: 10px;
     transition: all 0.3s ease;
     display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: 4px;
+    font-size: 0.7rem;
+    font-weight: 500;
 }
 
-.navigation-bar a:hover {
+.nav-link svg {
+    width: 20px;
+    height: 20px;
+}
+
+.nav-link span {
+    font-size: 0.65rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.nav-link:hover {
+    color: white;
     background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-1px);
 }
 
-.navigation-bar svg {
-    width: 30px;
-    height: 30px;
-}
-
-img {
-    display: none;
+.nav-link.active {
+    color: white;
+    background: rgba(57, 73, 171, 0.4);
+    box-shadow: 0 0 15px rgba(57, 73, 171, 0.3);
 }

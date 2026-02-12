@@ -1,0 +1,217 @@
+/* History Page */
+.history-page {
+    min-height: 100vh;
+    background: linear-gradient(150deg, rgba(10, 17, 40, 0.95) 0%, rgba(26, 35, 126, 0.95) 100%);
+    padding: 2rem;
+    color: white;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.history-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.history-container h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: white;
+}
+
+.loading-message {
+    text-align: center;
+    padding: 3rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.1rem;
+}
+
+/* Empty state */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.empty-state p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1rem;
+}
+
+/* Sessions grid */
+.sessions-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.session-card {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(10px);
+    border-radius: 14px;
+    padding: 1.2rem 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.session-card:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.session-card.expanded {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(57, 73, 171, 0.3);
+}
+
+.session-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.session-card-title h4 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0.3rem;
+}
+
+.session-date {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.session-card-score {
+    font-size: 1.5rem;
+    font-weight: 800;
+    padding: 0.4rem 1rem;
+    border-radius: 10px;
+    min-width: 80px;
+    text-align: center;
+}
+
+.score-green {
+    color: #66bb6a;
+    background: rgba(102, 187, 106, 0.12);
+}
+
+.score-yellow {
+    color: #ffa726;
+    background: rgba(255, 167, 38, 0.12);
+}
+
+.score-red {
+    color: #ef5350;
+    background: rgba(239, 83, 80, 0.12);
+}
+
+.session-card-meta {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.session-card-meta span {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+/* Expanded details */
+.session-card-details {
+    margin-top: 1.2rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.detail-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 0.8rem;
+    margin-bottom: 1.2rem;
+}
+
+.detail-metric {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.8rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.detail-label {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.3rem;
+}
+
+.detail-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #64B5F6;
+}
+
+.detail-section {
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.detail-section h5 {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.4rem;
+}
+
+.detail-section p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.75);
+    white-space: pre-line;
+}
+
+.transcription-preview {
+    max-height: 100px;
+    overflow-y: auto;
+    font-style: italic;
+    opacity: 0.7;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+    .session-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .detail-metrics {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

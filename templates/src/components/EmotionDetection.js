@@ -1,44 +1,39 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import SessionTimer from './SessionTimer';
 import '../styling/EmotionDetection.css';
 
 const EmotionDetection = ({ onSessionEnd }) => {
     const [isActive, setIsActive] = useState(false);
     const [metrics, setMetrics] = useState(null);
+    const [transcription, setTranscription] = useState('');
     const [error, setError] = useState(null);
     const videoRef = useRef(null);
     const metricsIntervalRef = useRef(null);
+    const transcriptionIntervalRef = useRef(null);
+    const transcriptionEndRef = useRef(null);
 
     const startDetection = async () => {
         try {
             setIsActive(true);
-            
-            // Start video stream
             if (videoRef.current) {
-                videoRef.current.src = 'http://localhost:5000/video_feed';
+                videoRef.current.src = `${process.env.REACT_APP_API_URL}/video_feed`;
             }
-            
-            // Start metrics polling
             metricsIntervalRef.current = setInterval(fetchMetrics, 1000);
-            
+            transcriptionIntervalRef.current = setInterval(fetchTranscription, 2000);
         } catch (err) {
             setError(err.message);
-            console.error('Error starting detection:', err);
         }
     };
 
     const stopDetection = async () => {
         try {
-            await axios.post('http://localhost:5000/api/stop-session');
             setIsActive(false);
-            if (metricsIntervalRef.current) {
-                clearInterval(metricsIntervalRef.current);
-            }
-            if (videoRef.current) {
-                videoRef.current.src = '';
-            }
+            if (metricsIntervalRef.current) clearInterval(metricsIntervalRef.current);
+            if (transcriptionIntervalRef.current) clearInterval(transcriptionIntervalRef.current);
+            if (videoRef.current) videoRef.current.src = '';
             if (onSessionEnd && metrics) {
-                onSessionEnd({ final_metrics: metrics });
+                onSessionEnd({ final_metrics: metrics, transcription });
             }
         } catch (err) {
             console.error('Error stopping detection:', err);
@@ -47,59 +42,100 @@ const EmotionDetection = ({ onSessionEnd }) => {
 
     const fetchMetrics = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/metrics');
-            if (response.data) {
-                setMetrics(response.data);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/metrics`);
+            if (response.data) setMetrics(response.data);
+        } catch (err) {
+            // Silently ignore metric fetch errors during active session
+        }
+    };
+
+    const fetchTranscription = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/transcription`);
+            if (response.data && response.data.transcription) {
+                setTranscription(response.data.transcription);
             }
         } catch (err) {
-            console.error('Error fetching metrics:', err);
+            // Silently ignore
         }
     };
 
     useEffect(() => {
         startDetection();
+        const video = videoRef.current;
         return () => {
-            if (metricsIntervalRef.current) {
-                clearInterval(metricsIntervalRef.current);
-            }
-            if (videoRef.current) {
-                videoRef.current.src = '';
-            }
+            if (metricsIntervalRef.current) clearInterval(metricsIntervalRef.current);
+            if (transcriptionIntervalRef.current) clearInterval(transcriptionIntervalRef.current);
+            if (video) video.src = '';
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        if (transcriptionEndRef.current) {
+            transcriptionEndRef.current.scrollTop = transcriptionEndRef.current.scrollHeight;
+        }
+    }, [transcription]);
 
     return (
         <div className="emotion-detection">
             {error && <div className="error">{error}</div>}
-            <div className="video-container">
-                <img ref={videoRef} alt="Video feed" />
+
+            <div className="session-header">
+                <SessionTimer />
                 {isActive && (
                     <button className="stop-button" onClick={stopDetection}>
                         End Session
                     </button>
                 )}
             </div>
-            {metrics && (
-                <div className="metrics">
-                    <h3>Live Metrics:</h3>
-                    <div className="metrics-grid">
-                        <div className="metric-card">
-                            <h4>Teaching Effectiveness</h4>
-                            <p className="metric-value">{metrics.teaching_effectiveness}%</p>
-                        </div>
-                        <div className="metric-card">
-                            <h4>Student Engagement</h4>
-                            <p className="metric-value">{metrics.face_presence}%</p>
-                        </div>
-                        <div className="metric-card">
-                            <h4>Positive Response</h4>
-                            <p className="metric-value">{metrics.positive_emotions}%</p>
-                        </div>
+
+            <div className="detection-layout">
+                <div className="video-panel">
+                    <div className="video-container">
+                        <img ref={videoRef} alt="Video feed" />
                     </div>
                 </div>
-            )}
+
+                <div className="side-panel">
+                    <div className="transcription-panel" ref={transcriptionEndRef}>
+                        <h4>Live Transcription</h4>
+                        <div className="transcription-text">
+                            {transcription || 'Waiting for speech...'}
+                        </div>
+                    </div>
+
+                    {metrics && (
+                        <div className="live-metrics">
+                            <h4>Live Metrics</h4>
+                            <div className="mini-metrics-grid">
+                                <div className="mini-metric">
+                                    <span className="mini-metric-label">Effectiveness</span>
+                                    <span className="mini-metric-value">{metrics.teaching_effectiveness}%</span>
+                                </div>
+                                <div className="mini-metric">
+                                    <span className="mini-metric-label">Engagement</span>
+                                    <span className="mini-metric-value">{metrics.face_presence}%</span>
+                                </div>
+                                <div className="mini-metric">
+                                    <span className="mini-metric-label">Positive</span>
+                                    <span className="mini-metric-value">{metrics.positive_emotions}%</span>
+                                </div>
+                                <div className="mini-metric">
+                                    <span className="mini-metric-label">Neutral</span>
+                                    <span className="mini-metric-value">{metrics.neutral_emotions}%</span>
+                                </div>
+                                <div className="mini-metric">
+                                    <span className="mini-metric-label">Negative</span>
+                                    <span className="mini-metric-value">{metrics.negative_emotions}%</span>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
         </div>
     );
 };
 
-export default EmotionDetection; 
+export default EmotionDetection;

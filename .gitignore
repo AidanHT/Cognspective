@@ -1,4 +1,43 @@
+# Virtual Environments
 .venv
-requirements.txt
+venv/
+ENV/
+env/
+
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.dist-info/
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
+
+# Environment variables
+.env
+.env.local
+
+# IDE / Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.cursor/
+
+# Node
+node_modules/
+
+# Project specific
 transcripts/
-backend/__pycache__/
+.claude/
+backend/cognspective.db
